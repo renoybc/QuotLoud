@@ -11,10 +11,12 @@
     <string name="new_pass">New Password</string>
     <string name="title_activity_profile">QuotLoud</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="hint_email">Email</string>
+    <string name="hint_email">Email ID</string>
     <string name="hint_password">Password</string>
+    <string name="hint_con_password">Confirm Password</string>
     <string name="hint_name">Fullname</string>
     <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
     <string name="btn_link_to_register">Not a member? Get registered in QuotLoud now!</string>
     <string name="btn_link_to_login">Already registered. Login Me!</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
