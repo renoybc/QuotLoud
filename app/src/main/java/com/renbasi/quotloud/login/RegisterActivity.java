@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText inputPassword,inputFirst_Name,inputLast_Name,inputEmail_id,inputMobile_Number,inputConfirm_Password;
     private Button btnSignUp;
-    private ProgressDialog mProgress;
+    private ProgressDialog registerProgress;
     private FirebaseAuth mauth;
     private DatabaseReference mDatabase;
 
@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         mauth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mProgress = new ProgressDialog(this);
+        registerProgress = new ProgressDialog(this);
 
 
         btnSignUp = (Button) findViewById(R.id.regpg_btn_reg);
@@ -62,8 +62,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(First_Name) && !TextUtils.isEmpty(Last_Name) && !TextUtils.isEmpty(Email_id) && !TextUtils.isEmpty(Mobile_Number) && !TextUtils.isEmpty(Password) && !TextUtils.isEmpty(Confirm_Password)){
 
-                    mProgress.setMessage("Signing Up.....");
-                    mProgress.show();
+                    Toast.makeText(RegisterActivity.this,"some",Toast.LENGTH_SHORT).show();
+                    registerProgress.setMessage("Signing Up.....");
+                    registerProgress.show();
+
 
                     mauth.createUserWithEmailAndPassword(Email_id ,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -79,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Current_User_db.child("Image").setValue("defult");
                                 Current_User_db.child("Mobile_Number").setValue(Mobile_Number);
 
-                                mProgress.dismiss();
+                                registerProgress.dismiss();
 
                                 Intent mIntent = new Intent(RegisterActivity.this,LoginActivity.class);
                                 mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

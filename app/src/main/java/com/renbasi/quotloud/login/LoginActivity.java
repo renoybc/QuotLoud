@@ -1,5 +1,7 @@
 package com.renbasi.quotloud.login;
 
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,84 +15,163 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.renbasi.quotloud.Main.Homescreen;
+import com.renbasi.quotloud.Main.ResetPasswordActivity;
 import com.renbasi.quotloud.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail,inputPassword;
+    private Button loginButton,registerButton,resetpassswordButton;
+    private ProgressDialog loginprogress;
+    private FirebaseAuth mAuth;
+    private DatabaseReference usersDatabase;
+  
     private TextView btnSignUp, btnResetPassword;
-    private Button btnSignIn ;
     private ProgressBar progressBar;
-    private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_login);
+
+        setContentView(R.layout.activity_login);
+
+        
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        mAuth = FirebaseAuth.getInstance();
+        usersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        loginprogress = new ProgressDialog(this);
 
 
-        btnSignIn = (Button) findViewById(R.id.lgn_btn);
-        btnSignUp = (TextView) findViewById(R.id.lgn_signup_btn);
-        inputEmail = (EditText) findViewById(R.id.lgn_email);
-        inputPassword = (EditText) findViewById(R.id.lgn_pass);
-      //  progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnResetPassword = (TextView) findViewById(R.id.lgn_frgt_btn);
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        loginButton = (Button) findViewById(R.id.login);
+        registerButton = (Button) findViewById(R.id.register);
+        resetpassswordButton = (Button) findViewById(R.id.resetpassword);
 
-       btnResetPassword.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                checklogin();
+            }
+        });
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                //startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(registerIntent);
+
+            }
+        });
+        resetpassswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent registerIntent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(registerIntent);
 
             }
         });
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                finish();
+
+    }
+    public final static boolean isValidEmail(CharSequence target)
+    {
+        if (TextUtils.isEmpty(target))
+        {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+
+    private void checklogin() {
+
+        String Email_id = inputEmail.getText().toString().trim();
+        String Password = inputPassword.getText().toString().trim();
+
+        CharSequence temp_emilID=Email_id;//here username is the your edittext object...
+        if(!isValidEmail(temp_emilID))
+        {
+            inputEmail.requestFocus();
+            inputEmail.setError("Enter a valid emailid");
+
+        }
+        else
+        {
+            if(!TextUtils.isEmpty(Email_id) && !TextUtils.isEmpty(Password)){
+
+                loginprogress.setMessage("Checking Login....");
+                loginprogress.show();
+                mAuth.signInWithEmailAndPassword(Email_id,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()){
+
+                            loginprogress.dismiss();
+                            checkUserExist();
+
+                        }
+                        else {
+                            loginprogress.dismiss();
+                            Toast.makeText(LoginActivity.this,"Error in login",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
 
             }
-        });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+
+        }
+
+    }
+
+    private void checkUserExist() {
+
+        final String User_id = mAuth.getCurrentUser().getUid();
+        usersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(User_id)){
 
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
-                /**
+                    Intent mainIntent = new Intent(LoginActivity.this, Homescreen.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainIntent);
 
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
+                }else
+                {
+                    Toast.makeText(LoginActivity.this,"You need to setup your account",Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
@@ -115,13 +196,15 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });**/
 
+
             }
         });
-    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
        // progressBar.setVisibility(View.GONE);
+
     }
 }
