@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +22,8 @@ import com.renbasi.quotloud.R;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
-    private Button btnSignIn, btnSignUp, btnResetPassword;
+    private TextView btnSignUp, btnResetPassword;
+    private Button btnSignIn ;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -31,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.act_login);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
@@ -39,12 +41,12 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
 
-        btnSignIn = (Button) findViewById(R.id.sign_in_button);
-        btnSignUp = (Button) findViewById(R.id.sign_up_button);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+        btnSignIn = (Button) findViewById(R.id.lgn_btn);
+        btnSignUp = (TextView) findViewById(R.id.lgn_signup_btn);
+        inputEmail = (EditText) findViewById(R.id.lgn_email);
+        inputPassword = (EditText) findViewById(R.id.lgn_pass);
+      //  progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnResetPassword = (TextView) findViewById(R.id.lgn_frgt_btn);
 
        btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +122,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        progressBar.setVisibility(View.GONE);
+       // progressBar.setVisibility(View.GONE);
     }
 }
