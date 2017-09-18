@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/appnametxt"
+        android:layout_centerHorizontal="true"
+        android:text="QuotLoud"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/appnametxt"
+        android:layout_width="@dimen/login_edtxts_width"
+        android:layout_height="@dimen/login_edtxts_height"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rectangle_rounded"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:hint="email" />
+
+
+</RelativeLayout>

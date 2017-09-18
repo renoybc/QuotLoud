@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String Confirm_Password = inputConfirm_Password.getText().toString().trim();
 
                 if (!TextUtils.isEmpty(First_Name) && !TextUtils.isEmpty(Last_Name) && !TextUtils.isEmpty(Email_id) && !TextUtils.isEmpty(Mobile_Number) && !TextUtils.isEmpty(Password) && !TextUtils.isEmpty(Confirm_Password)){
-                    Toast.makeText(RegisterActivity.this,"some",Toast.LENGTH_SHORT).show();
+
                     mProgress.setMessage("Signing Up.....");
                     mProgress.show();
 
