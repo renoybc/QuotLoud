@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryColor"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
+    <ImageView
+        android:layout_width="60pt"
+        android:layout_height="60pt"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/applogologin"
+        android:layout_marginTop="60dp"
+        app:srcCompat="@drawable/ic_cloud_white_48dp" />
+    <TextView
+        android:layout_below="@+id/applogologin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/appnametxt"
+        android:layout_centerHorizontal="true"
+        android:text="QuotLoud"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/lgn_email"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/appnametxt"
+        android:layout_width="@dimen/login_edtxts_width"
+        android:layout_height="@dimen/login_edtxts_height"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rectangle_rounded"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:hint="email" />
+    <EditText
+        android:id="@+id/lgn_pass"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/lgn_email"
+        android:layout_width="@dimen/login_edtxts_width"
+        android:layout_height="@dimen/login_edtxts_height"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rectangle_rounded"
+        android:maxLines="1"
+        android:hint="Password"
+        android:inputType="textPassword" />
+    <Button
+        android:id="@+id/lgn_btn"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/lgn_pass"
+        android:layout_width="180dp"
+        android:text="LOGIN"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="@dimen/login_edtxts_height"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rectangle_rounded"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:hint="email"
+        android:textSize="24sp" />
+    <TextView
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot password ?"
+        android:textColor="@color/primaryTextColor"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/lgn_div"
+        android:id="@+id/lgn_frgt_btn"
+        />
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="|"
+        android:textColor="@color/primaryTextColor"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/lgn_div"/>
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="new user ?"
+        android:textColor="@color/primaryTextColor"
+        android:layout_toRightOf="@+id/lgn_div"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/lgn_signup_btn"/>
+
+
+</RelativeLayout>
